@@ -3,6 +3,7 @@ const {postModel}=require("../models/post.model")
 const postRouter=Router()
 postRouter.post("/add",async(req,res)=>{
     const payload=req.body
+    console.log(payload)
   try{
    const postit= await postModel.create(payload)
    console.log(postit) 
@@ -26,7 +27,7 @@ postRouter.get("/get",async(req,res)=>{
 postRouter.patch("/update/:id",async(req,res)=>{
     const {id}=req.params
   try{
-   const postit= await postModel.updateOne({id:_id},req.body)
+   const postit= await postModel.updateOne({_id:id},req.body)
    console.log(postit) 
    res.send(`200:{msg:"Post added"},${postit}`)
   }catch(err){

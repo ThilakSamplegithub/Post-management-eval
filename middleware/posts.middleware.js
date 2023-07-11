@@ -1,20 +1,14 @@
 const jwt=require("jsonwebtoken")
-async function accessMiddleware(req,res,next){
-try{
-    const token= await req.headers.Authorization
+ function accessMiddleware(req,res,next){
+    const token=  req.headers.authorization
+    console.log(token,"is token")
     const dec= jwt.verify(token,"masaikey",(err,decode)=>{
-        if(decode){
-        next()
+        if(err){
+            res.send("invalid token")
+            console.log(err.message,"is error message")
         }else{
-           res.send(err.message)
+            next()
         }
     })
-    if(dec){
-        next()
-    }
-}catch(err){
-console.log(err.message)
-}
-
 }
 module.exports={accessMiddleware}
