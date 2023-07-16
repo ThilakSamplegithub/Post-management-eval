@@ -13,10 +13,10 @@ userRouter.post("/register",async(req,res)=>{
       console.log(secure_password)
       const userData= await userModel.create({email,pass:secure_password,name,age,city})
     console.log(userData)
-    res.status(200).json(`The new user has been registered,registeredUser:${userData}
+    return res.status(200).json(`The new user has been registered,registeredUser:${userData}
     }`)
     }
-  });
+  })
 }catch(err){
     console.log(err.message)
     res.send(`400:{
@@ -28,12 +28,14 @@ userRouter.post("/login",async(req,res)=>{
    const {email,pass}=req.body
    try{
       const loggedUser=await userModel.find({email})
-      console.log(bcrypt.compareSync(pass, loggedUser[0].pass))
+      console.log(bcrypt.compare(pass, loggedUser[0].pass))
+      const user_Id=loggedUser[0]._id
       if(loggedUser.length>0){
         bcrypt.compare(pass, loggedUser[0].pass, function(err, result) {
           if(result){
-           const token=jwt.sign({email},"masaikey")
-             res.send(`200:{msg:"Login successful!",token:${token}}`)
+           const token=jwt.sign({user_Id},"masaikey")
+            //  res.send(`200:{msg:"Login successful!",token:${token}}`)
+             return res.status(200).json({msg:"Login successful!",token:token})
           }else{
             res.send("Invalid credentials")
           }
