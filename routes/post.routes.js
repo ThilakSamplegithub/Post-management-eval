@@ -50,7 +50,7 @@ postRouter.patch("/update/:id",async(req,res)=>{
       const postit= await postModel.updateOne({_id:id},req.body)
       const updatedPost=await postModel.findById({_id:id})
     console.log(postit) 
-    res.send(`200:{msg:"Post added"},${updatedPost}`)
+    res.status(200).json(updatedPost)
     }else{
       res.send("you are not authorised")
     }
