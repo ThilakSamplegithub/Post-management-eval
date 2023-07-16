@@ -19,7 +19,8 @@ postRouter.get("/get",async(req,res)=>{
   try{
   const getPosts= await postModel.find()
    console.log(getPosts) 
-   res.send(`200:${getPosts}`)
+//  res.send(`${getPosts}`)
+ res.json(getPosts)
   }catch(err){
     console.log(err.message)
     res.send(`400:{error:${err.message}}`)
